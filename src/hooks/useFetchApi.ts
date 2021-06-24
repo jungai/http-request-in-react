@@ -14,11 +14,11 @@ export interface IUseFetchApiParams {
   q?: IQ;
 }
 
-export interface IUseFetchApiResult<T> extends IHookState<T> {
+export type IUseFetchApiResult<T> = IHookState<T> & {
   refetch: () => void;
   setPath: Dispatch<SetStateAction<string>>;
   setQueryParams: Dispatch<SetStateAction<IQ>>;
-}
+};
 
 // this might be data_services 🧐
 // or HOF thing
@@ -48,11 +48,16 @@ export function useFetchApi<T>(
   useEffect(() => {
     (async () => {
       try {
+        console.log("-> is fetch");
         setState((val) => ({ ...val, data: null, loading: true }));
         const data = await ky.get(`${path}?${queryString}`).json<T>();
         setState((val) => ({ ...val, loading: false, data }));
       } catch (err) {
         setState((val) => ({ ...val, error: err }));
+        // throw new Error cannot use in useEffect
+        // hack thing (for error boundary)
+        // setState(() => { throw new Error(err)})
+        // throw new Error(err)
       }
     })();
   }, [path, refetchIndex, queryParams]);
