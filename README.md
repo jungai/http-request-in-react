@@ -4,5 +4,5 @@
 - [x] custom hook
   - [x] get
   - [x] post, put
-- [ ] [use-http](https://github.com/alex-cory/use-http)
-- [ ] [react-query](https://github.com/tannerlinsley/react-query)
+
+> move about `react-query` in to mono [repo](https://github.com/jungai/in-deep-with-react-query)
